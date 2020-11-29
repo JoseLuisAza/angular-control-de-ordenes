@@ -22,7 +22,6 @@ export class Articulo2Component implements OnInit {
     this.auth0Service.userProfile$.subscribe(
       x =>  {
         this.user={"user_id":x['http://softland.comuser_id']};
-        console.log(this.user);
       },//obtenemos la fecha y se la pasamos a la variable created_at
       err => console.error('Observer got an error: ' + err),//si hay error
       () => console.log('Observer got a complete notification')//completo la notificacion del observer

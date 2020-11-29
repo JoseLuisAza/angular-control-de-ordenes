@@ -1,6 +1,6 @@
-<p-card header="{{item.nombre}}" subheader="{{item.valor}}" [style]="{width: '300px'}" styleClass="p-card-shadow">
+<p-card header="{{item.nombre}}" subheader="{{item.precio}}" [style]="{width: '300px'}" styleClass="p-card-shadow">
     <p-header>
-        <img alt="Card" src="assets/showcase/images/usercard.png">
+        <img alt="Card" [src]="item.ruta">
     </p-header>
     <p>{{item.detalle}}</p>
     <ng-template pTemplate="footer">
