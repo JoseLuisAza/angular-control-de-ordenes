@@ -1,0 +1,11 @@
+<p-card header="{{item.nombre}}" subheader="{{item.valor}}" [style]="{width: '300px'}" styleClass="p-card-shadow">
+    <p-header>
+        <img alt="Card" src="assets/showcase/images/usercard.png">
+    </p-header>
+    <p>{{item.detalle}}</p>
+    <ng-template pTemplate="footer">
+        <p-button label="Comprar" icon="pi pi-check"></p-button>
+        <p-button label="Guardar" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+    </ng-template>
+</p-card>
+

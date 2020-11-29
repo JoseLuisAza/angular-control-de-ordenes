@@ -1,0 +1,12 @@
+.ui.special.cards{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin:1rem 0;
+}
+app-articulo2{
+    margin-left: 2em;
+    margin-top: 2em;
+}

@@ -1,0 +1,4 @@
+<app-loading *ngIf="loading"></app-loading>
+<div class="ui special cards" >
+    <app-articulo *ngFor="let item of items" [item]='item'></app-articulo>
+</div>
