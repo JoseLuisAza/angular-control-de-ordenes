@@ -1,0 +1,16 @@
+.user{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    margin-top: 1em;
+}
+
+.ui.avatar.image{
+    display:block !important;
+}
+
+#user{
+    border:solid 1px var(--dark-borde-color-primario);
+}

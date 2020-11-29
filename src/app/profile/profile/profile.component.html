@@ -1,2 +1,15 @@
-<h4>profile works</h4>
+<div class="user" *ngIf="auth0Service.userProfile$ | async as profile">
+    <img class="ui avatar mini image" src="{{profile.picture}}" id="user">
+    <h4>{{profile.name}}</h4>
+    <h6>{{profile.email}}</h6>
+
+    <!-- <div class="etiqueta">
+        <p-button label="256" icon="pi pi-user" iconPos="left"></p-button>
+        <p-button label="PRO" icon="pi pi-check" iconPos="left" *ngIf="isPro"></p-button>
+        <p-button label="FREE" icon="pi pi-check" iconPos="left" *ngIf="!isPro"></p-button>
+        <p-button label="{{amountBooks}}" icon="pi pi-file-pdf" iconPos="left"></p-button>
+    </div> -->
+
+</div>
+
 <app-myitems></app-myitems>

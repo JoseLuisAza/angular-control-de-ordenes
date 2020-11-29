@@ -12,9 +12,10 @@ import {Card, CardModule} from 'primeng/card';
 import { ControlDeOrdenesService } from './services/control-de-ordenes.service';
 import { HttpClient } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
-import { ProfileModule } from './profile/profile.module';
 import { LoadingComponent } from './loading/loading.component';
 import { CommonModule } from '@angular/common';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { Auth0Service } from './services/auth0.service';
 
 @NgModule({
   declarations: [
@@ -32,10 +33,12 @@ import { CommonModule } from '@angular/common';
     SplitButtonModule,
     ButtonModule,
     CardModule,
+    BrowserAnimationsModule
   ],
   providers: [
     HttpClient,
-    ControlDeOrdenesService
+    ControlDeOrdenesService,
+    Auth0Service,
   ],
   exports: [
 

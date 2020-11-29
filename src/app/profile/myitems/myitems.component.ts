@@ -25,4 +25,9 @@ export class MyitemsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  buscar(item)
+  {
+    
+  }
+
 }

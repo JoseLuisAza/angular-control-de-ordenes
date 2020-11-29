@@ -1,11 +1,11 @@
 <app-loading2 *ngIf="loading"></app-loading2>
 <div id="opciones">
-    <i class="book icon" routerLink='/profile/newItem'></i>
+    <i class="pi pi-check" routerLink='/profile/newItem'></i>
     <div class="ui icon input">
-       <!-- <input type="text" placeholder="Buscar..." #texto (keyup.enter)="buscar(texto.value)"> --> 
+       <input type="text" placeholder="Buscar..." #texto (keyup.enter)="buscar(texto.value)"> 
       <i class="search link icon"></i>
     </div>
-    <!-- <button pButton id="pdf" type="button" icon="pi pi-file-pdf" label="{{items.length}}" *ngIf="items.length>=1" class="p-button-rounded p-button-warning"></button> -->
+    <button pButton id="pdf" type="button" icon="pi pi-file-pdf" label="{{items.length}}" *ngIf="items.length>=1" class="p-button-rounded p-button-warning"></button>
 </div>
 <div class="ui special cards" >
     <app-articulo2 *ngFor="let item of items; let i = index" [item]='item'></app-articulo2>

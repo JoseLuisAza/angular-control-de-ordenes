@@ -4,7 +4,26 @@
     </p-header>
     <p>{{item.detalle}}</p>
     <ng-template pTemplate="footer">
-        <p-button label="Comprar" icon="pi pi-check"></p-button>
-        <p-button label="Guardar" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+        <p-splitButton label="Opciones" icon="pi pi-ellipsis-v" [model]="opciones"></p-splitButton>
     </ng-template>
 </p-card>
+
+
+<p-dialog [(visible)]="showModal" [style]="{width: '50vw'}">
+    <p-header>
+        ¿Estás seguro que deseas eliminar este articulo?
+    </p-header>
+    <img src="assets/img/undraw_Notify_re_65on.svg" width="50%" />
+    <p-messages severity="warn">
+        <ng-template pTemplate>
+            <img src="assets/img/undraw_Notify_re_65on.svg" width="26" />
+            <div class="p-ml-2">Nota: Toma en cuenta que si lo eliminas, se eliminara permanentemente
+                y ya no se podra recuperar!
+            </div>
+        </ng-template>
+    </p-messages>
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="showModal=false" label="No, Deseo seguir conservandolo!"></p-button>
+        <button icon="pi pi-times" pButton type="button" (click)="delete()" label="Si deseo eliminarlo" class="p-button-danger"></button>
+    </p-footer>
+  </p-dialog>
