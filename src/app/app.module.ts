@@ -16,6 +16,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Auth0Service } from './services/auth0.service';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { Auth0Service } from './services/auth0.service';
     SplitButtonModule,
     ButtonModule,
     CardModule,
+    DialogModule,
     BrowserAnimationsModule
   ],
   providers: [

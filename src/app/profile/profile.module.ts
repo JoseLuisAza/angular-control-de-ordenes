@@ -14,6 +14,7 @@ import { Articulo2Component } from './articulo2/articulo2.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 
@@ -35,6 +36,7 @@ import { CardModule } from 'primeng/card';
     SplitButtonModule,
     ButtonModule,
     CardModule,
+    InputTextModule
   ],
   exports:[
   ]

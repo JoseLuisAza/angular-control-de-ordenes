@@ -17,8 +17,8 @@ export class NewItemComponent implements OnInit {
   user:any;//objeto que va a contener informacion del usuario logeado
   formData:any;//objeto que contendra la imagen y los datos del item
   subido:any;//varible que guardara el porcentaje de lo subido
-
-  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service, public Router:Router) { }
+  valueprogress:number=0;
+  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service, public router:Router) { }
 
   ngOnInit() {
     /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
@@ -86,7 +86,10 @@ export class NewItemComponent implements OnInit {
  
              this.subido=((event.loaded / event.total)*100).toFixed(0);//divide lo cargado dentro del total de peso y lo multiplica por 100 y saca solo numero entero
              var KB=(event.loaded/1024).toFixed(2);//guardamos lo cargado y lo dividimos en 1024 para sacar los KB con solo dos decimales
-            //  $('#subidafile')
+            
+             this.valueprogress=Number(((event.loaded*100)/event.total).toFixed(0));
+            
+             //  $('#subidafile')
             //  .progress({
             //      total: 8,//establecemos el total del progreso que sera el mismo de numero de hojas
             //      text: {//establecemos el texto que aparecera debajo del progress
@@ -100,7 +103,7 @@ export class NewItemComponent implements OnInit {
              if(this.subido==100)
              {
               setTimeout(() => {
-                this.Router.navigate(['/profile/mybooks/books']);
+                this.router.navigate(['/profile']);
               },1000);  
              }
          }

@@ -4,7 +4,22 @@
     </p-header>
     <p>{{item.detalle}}</p>
     <ng-template pTemplate="footer">
-        <p-button label="Comprar" icon="pi pi-check"></p-button>
+        <p-button label="Comprar" icon="pi pi-check" (click)='showModal=true'></p-button>
         <p-button label="Guardar" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
     </ng-template>
 </p-card>
+
+
+<p-dialog [(visible)]="showModal" [style]="{width: '50vw'}">
+    <p-header>
+        ¿Cuantos Articulos deseas?
+    </p-header>
+    <span class="p-float-label">
+        <input id="float-input" type="number" name="cantidad" #cantidad required pInputText> 
+        <label for="float-input">cantidad</label>
+      </span>
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="comprar(cantidad.value)" label="Hecho"></p-button>
+        <button icon="pi pi-times" pButton type="button" (click)="showModal=false" label="cancelar" class="p-button-danger"></button>
+    </p-footer>
+  </p-dialog>

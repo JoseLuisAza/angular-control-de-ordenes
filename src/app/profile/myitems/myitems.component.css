@@ -1,4 +1,48 @@
+:host{
+    display: grid;
+    grid-template-areas:
+    'opciones'
+    'cards';
+    padding:0vh 5vw 0vh 5vw;
+    min-height: 75vh;
+}
+
+/*-------opciones-------*/
+#opciones{
+    grid-area: opciones;
+    position: relative;
+    width: 100%;
+    background-color: var(--dark-background-color-secundario);
+    border: solid 1px var(--dark-borde-color-primario);
+    padding: 1em 1em;
+    box-sizing: border-box;
+    border-radius: 0.3em;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+#opciones i{
+    color:var(--dark-text-color-primario) !important;
+    cursor: pointer;
+}
+#opciones i:hover{
+    color:var(--dark-text-color-secundario) !important;
+}
+#opciones #pdf{
+    position: absolute;
+    right: 0px;
+    margin-right: 1em;
+}
+
+#opciones .ui.input>input {
+    background: var(--dark-background-color-secundario);
+    border: solid 1px var(--dark-borde-color-primario) ;
+    color: var(--dark-text-color-terciario);
+    margin-left: 2em;
+}
+
 .ui.special.cards{
+    grid-area: cards;
     display: flex;
     flex-direction: row;
     align-items: center;

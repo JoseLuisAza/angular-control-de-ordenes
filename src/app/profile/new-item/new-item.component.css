@@ -1,0 +1,97 @@
+
+.p-float-label{
+    margin: 1.5em;
+    display: inline-block;
+}
+
+:host{
+    background-color:var(--dark-background-color-primario);
+    display: grid;
+    grid-template-areas:
+    'message'
+    'select'
+    'upload';
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    padding:0vh 5vw 0vh 5vw;
+    min-height: 80vh;
+}
+
+.ui.message{
+    grid-area: message;
+    margin:auto;
+}
+
+#divlibro{
+    grid-area: select;
+    display: flex;
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    margin-top: 1em;   
+}
+
+#formajax{
+    margin-top: 1% !important;
+    display: flex;
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.textbox{
+    margin-top: 1% !important;
+    display: flex;
+    flex-flow: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#formajax input{
+  margin-top: 1em;
+}
+
+#upload{
+    grid-area: upload;
+    position: relative;
+    display:none;
+    background-color: var(--dark-background-color-secundario);
+    border:solid 1px var(--dark-borde-color-primario);
+}
+#subidafile{
+    height: auto;
+    margin-top: 1% !important;
+    background-color: var(--dark-background-color-primario)!important;
+    overflow: visible;
+    line-height: 1;
+}
+
+.ui.progress > .label{
+    color:var(--dark-text-color-primario) !important;
+}
+
+.progress{
+    background: none !important;
+    background-color: none !important;
+    border:none !important;
+}
+
+.ui.primary.button{
+    display: inline-block;
+    width: 30vw;
+}
+
+.custom-file{
+    width: 30vw;
+}
+
+
+p-progressBar{
+    width: 30vw !important;
+}

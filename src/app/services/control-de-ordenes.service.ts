@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class ControlDeOrdenesService {
   pathnewItem:String=this.domain+"/newItem";
   pathDelteItem:String=this.domain+"/deleteItem";
   pathUpdateItem:String=this.domain+"/updateItem";
-  constructor(protected http: HttpClient) { }
+  localStorage:any;
+  constructor(protected http: HttpClient) { 
+    this.localStorage=window.localStorage;
+  }
 
 
   /*Enviamos a nuestro servidor el usario para registrarlo en la base de datos*/
@@ -52,6 +56,33 @@ export class ControlDeOrdenesService {
   public updateItem(data:any)
   {
     return this.http.post(this.pathUpdateItem.toString(),data);
+  }
+
+  public agregarCarrito(item,cantidad:number):Observable<string>
+  {
+    //localStorage.clear();
+    let obs$=new Observable<string>(subcriber=>{
+      let existeItem=JSON.parse(localStorage.getItem(item.idproducto));
+      if(existeItem==null)
+      {
+        let compra={'idproducto':item.idproducto,'cantidad':cantidad};
+        localStorage.setItem(item.idproducto,JSON.stringify(compra));
+        subcriber.next('Agregado');
+      }
+      else
+      {
+          //convertimos a numero cantidad guardada en objeto en localstorage y la cantidad que ingreso el comprador
+          let x: number =+existeItem.cantidad;
+          console.log(x);
+          let y:number=+cantidad;
+          existeItem.cantidad=x+y;
+          localStorage.setItem(item.idproducto,JSON.stringify(existeItem));
+          subcriber.next('Agregado');
+          
+      }
+
+    });
+    return obs$;
   }
 
 }
