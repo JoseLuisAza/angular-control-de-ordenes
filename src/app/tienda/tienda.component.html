@@ -12,7 +12,41 @@
 
 </div>
 <app-loading *ngIf="loading"></app-loading>
-<button pButton id="pdf" type="button" icon="pi pi-shopping-cart" label="{{totalProductosComprados}}" *ngIf="items.length>=1" class="p-button-rounded p-button-warning"></button>
+<button pButton id="pdf" type="button" icon="pi pi-shopping-cart" (click)='listShop()' label="{{totalProductosComprados}}" *ngIf="items.length>=1" class="p-button-rounded p-button-warning"></button>
 <div class="ui special cards" >
     <app-articulo *ngFor="let item of items" [item]='item'></app-articulo>
+    <img src="assets/img/undraw_No_data_re_kwbl.svg" alt="" *ngIf="noData" class="noData">
 </div>
+
+<p-dialog [(visible)]="showModalShop" [style]="{width: '50vw'}">
+    <p-header>
+        CARRITO
+    </p-header>
+    <div class="card">
+        <p-table [value]="products" selectionMode="single" [(selection)]="selectedProduct1" dataKey="code">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Codigo</th>
+                    <!-- <th>Nombre</th>
+                    <th>Precio</th> -->
+                    <th>Cantidad</th>     
+                    <!-- <th>Subtotal</th>            -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr [pSelectableRow]="product">
+                    <td>{{product.idproducto}}</td>
+                    <td>{{product.cantidad}}</td>
+                    <!-- <td>{{item.category}}</td>
+                    <td>{{item.quantity}}</td> -->
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="finalizarCompra()" label="Finalizar compra" class="p-button-danger"></p-button>
+        <button icon="pi pi-times" pButton type="button" (click)="showModalShop=false"  label="Cancelar" class="p-button-danger"></button>
+        <button icon="pi pi-times" pButton type="button" (click)="eliminarArticulos()"  label="Cancelar y eliminar articulos" class="p-button-danger"></button>
+    </p-footer>
+
+  </p-dialog>

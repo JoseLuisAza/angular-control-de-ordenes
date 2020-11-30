@@ -1,3 +1,4 @@
+import { HttpEventType } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth0Service } from 'src/app/services/auth0.service';
@@ -14,7 +15,10 @@ export class Articulo2Component implements OnInit {
   @Input() item:any;
   opciones:any[];
   showModal:boolean=false;
+  showModalUpdate:boolean=false;
   user:any;
+  formData:any;//objeto que contendra la imagen y los datos del item
+  subido:any;//varible que guardara el porcentaje de lo subido
 
   constructor(private cdo:ControlDeOrdenesService, private router:Router, public auth0Service: Auth0Service ) { 
 
@@ -35,20 +39,24 @@ export class Articulo2Component implements OnInit {
       }},
 
       {label: 'Actualizar', icon: 'pi pi-times', command: () => {
-        //this.showModal=true;
+        this.showModalUpdate=true;
       }},
   ];
+
+  $("#formUpdate").on("submit", (e)=>
+  {
+      e.preventDefault();
+      //this.fileSize();
+      console.log('submit');
+
+  });
   }
 
   public delete()
   {
-    let data;//el objeto que se va a enviar al servidor para eliminar el archivo
-    data=this.user;//se añade el usuario
-    data.iditem=this.item.iditem;//se añda el id del item
-    data.path=this.item.path;//se añade el path del item
+    let data={'idproducto':this.item.idproducto};
     this.cdo.deleteItem(data).subscribe(
       data=>{
-          console.log(data);
           //verificamos en el objeto que nos devuelve la respuesta si se afecto minimo una linea en la base de datos
           if(data['affectedRows']>=1)
           {
@@ -83,5 +91,76 @@ export class Articulo2Component implements OnInit {
           console.log(err);
         });
   }
+
+  public  fileSize(nombre,precio,detalles)
+  {
+        //$("#subidafile").slideDown();//muestra subidafile
+        //if(this.validateFileSize())//valida el tamaño del archivo a subir
+        //{
+            this.formData = new FormData();
+            this.formData.append('nombre',nombre);
+            this.formData.append('precio',precio);
+            this.formData.append('detalles',detalles);
+            this.formData.append('idproducto',this.item.idproducto);
+            /*Nos suscribimos para obtener el user id */
+            // this.auth0Service.userProfile$.subscribe(
+            //   x =>   this.formData.append("user_id",x['http://softland.comuser_id']), //obtenemos la fecha y se la pasamos a la variable created_at
+            //   err => console.error('Observer got an error: ' + err),//si hay error
+            //   () => console.log('Observer got a complete notification')//completo la notificacion del observer
+            // );
+            this.uploadFile();//ejecuta funcion para subir archivo
+        // }
+        // else{
+        //   //si el archivo esta demasiado grande
+        //     iziToast.error({
+        //         title: 'Error',
+        //         message: 'Documento demasiado grande!',
+        //     });
+        // }
+
+  }
+
+  private validateFileSize() 
+  {
+    let fileSize:number= $('#validatedCustomFile')[0].files[0].size;
+    let maxSizeMB:number=10;
+    if (fileSize > maxSizeMB*1024*1024) {
+        return false;
+    }
+    return true;
+  }
+
+  private uploadFile()
+  {
+     this.cdo.updateItem(this.formData).subscribe(
+       data=>{
+        if(data['affectedRows']>=1)
+        {
+          //Mostramos un mensaje
+          iziToast.success({
+            title: 'success',
+            message: 'Articulo Actualizado!',
+          });
+
+          //ocultamos el modal
+          this.showModalUpdate=false;
+          //volvemos a cargar el componente
+          this.router.navigate(['/profile']);
+        }
+        else
+        {
+          //si no fue afectada ninguna fila en la base de datos
+          //mostramos un mensaje
+          iziToast.error({
+            title: 'error',
+            message: 'Hubo un error.. No se actualizo Articulo!',
+          });
+        }
+      },
+         (error) =>{
+             console.error(error)
+            }
+      );
+  } 
 
 }

@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Auth0Service } from './services/auth0.service';
 import { DialogModule } from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     CardModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TableModule
   ],
   providers: [
     HttpClient,

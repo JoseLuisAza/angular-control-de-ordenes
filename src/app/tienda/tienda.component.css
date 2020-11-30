@@ -10,3 +10,7 @@ app-articulo{
     margin-left: 2em;
     margin-top: 2em;
 }
+
+.noData{
+    width: 30vw;
+}

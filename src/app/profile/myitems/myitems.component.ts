@@ -12,6 +12,7 @@ export class MyitemsComponent implements OnInit {
   amountItems:number;
   loading:boolean=true;
   user:any;
+  noData:boolean=false;
   constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service ) { 
 
 
@@ -26,6 +27,10 @@ export class MyitemsComponent implements OnInit {
                   (data:any) => {
                     this.items=data;
                     this.loading=false;
+                    if(data.length==0)
+                    {
+                      this.noData=true;
+                    }
                   },
                   (error) => {
                     console.error(error)

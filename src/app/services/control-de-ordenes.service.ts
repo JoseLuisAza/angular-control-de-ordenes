@@ -15,6 +15,7 @@ export class ControlDeOrdenesService {
   pathnewItem:String=this.domain+"/newItem";
   pathDelteItem:String=this.domain+"/deleteItem";
   pathUpdateItem:String=this.domain+"/updateItem";
+  pathFinishShop:string=this.domain+"/finishShop"
   localStorage:any;
   constructor(protected http: HttpClient) { 
     this.localStorage=window.localStorage;
@@ -59,10 +60,12 @@ export class ControlDeOrdenesService {
     return this.http.post(this.pathDelteItem.toString(),data);
   }
 
-  public updateItem(data:any)
+  public updateItem(formData:any)
   {
-    return this.http.post(this.pathUpdateItem.toString(),data);
+    return this.http.post(this.pathUpdateItem.toString(),formData);
   }
+
+  
 
   public agregarCarrito(item,cantidad:number):Observable<string>
   {
@@ -101,6 +104,24 @@ export class ControlDeOrdenesService {
     return obs$;
   }
 
+  public getItemsCarrito():Observable<any[]>
+  {
+    //localStorage.clear();
+    let obs$=new Observable<any[]>(subcriber=>{
+      subcriber.next(this.allStorage());
+    });
+    return obs$;
+  }
+
+  public clarItemsCarrito():Observable<boolean>
+  {
+      let obs$=new Observable<boolean>(subcriber=>{
+        this.localStorage.clear();
+        subcriber.next(true);
+      });
+      return obs$;
+  }
+
   public allStorage() {
 
     var values = [],
@@ -108,10 +129,15 @@ export class ControlDeOrdenesService {
         i = keys.length;
 
     while ( i-- ) {
-        values.push( this.localStorage.getItem(keys[i]) );
+        values.push( JSON.parse(this.localStorage.getItem(keys[i]) ));
     }
 
     return values;
 }
+
+  public finalizarCompra(formData:any)
+  {
+    return this.http.post(this.pathFinishShop.toString(),formData);
+  }
 
 }

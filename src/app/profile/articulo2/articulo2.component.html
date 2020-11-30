@@ -13,10 +13,8 @@
     <p-header>
         ¿Estás seguro que deseas eliminar este articulo?
     </p-header>
-    <img src="assets/img/undraw_Notify_re_65on.svg" width="50%" />
     <p-messages severity="warn">
         <ng-template pTemplate>
-            <img src="assets/img/undraw_Notify_re_65on.svg" width="26" />
             <div class="p-ml-2">Nota: Toma en cuenta que si lo eliminas, se eliminara permanentemente
                 y ya no se podra recuperar!
             </div>
@@ -26,4 +24,34 @@
         <p-button icon="pi pi-check" (click)="showModal=false" label="No, Deseo seguir conservandolo!"></p-button>
         <button icon="pi pi-times" pButton type="button" (click)="delete()" label="Si deseo eliminarlo" class="p-button-danger"></button>
     </p-footer>
+</p-dialog>
+
+  <p-dialog [(visible)]="showModalUpdate" [style]="{width: '50vw'}">
+    <p-header>
+        ACTUALIZACION
+    </p-header>
+        <!-- <div class="custom-file">
+          <input type="file" name="file" class="custom-file-input" id="validatedCustomFile" required>
+          <label class="custom-file-label" for="validatedCustomFile">Elige un archivo...</label>
+          <div class="invalid-feedback">Example invalid custom file feedback</div>
+        </div> -->
+        <div class="textbox">
+            <span class="p-float-label">
+              <input type="text" name="nombre" required #nombre  pInputText> 
+              <label for="float-input">nombre</label>
+            </span>
+            <span class="p-float-label">
+              <input  type="number" name="precio" required #precio pInputText> 
+              <label for="float-input">precio</label>
+            </span>
+            <span class="p-float-label">
+              <input type="text" name="detalles" required #detalles pInputText> 
+              <label for="float-input">detalle</label>
+            </span>
+        </div>   
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="fileSize(nombre.value,precio.value,detalles.value)" label="Actualizar" class="p-button-danger"></p-button>
+        <button icon="pi pi-times" pButton type="button" (click)="showModalUpdate=false"  label="Cancelar" class="p-button-danger"></button>
+    </p-footer>
+
   </p-dialog>

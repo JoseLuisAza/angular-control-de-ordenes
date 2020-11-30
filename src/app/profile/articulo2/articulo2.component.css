@@ -1,0 +1,22 @@
+img{
+    width: 300px;
+    max-height: 300px;
+}
+
+.textbox{
+    margin-top: 1% !important;
+    display: flex;
+    flex-flow: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#formajax input{
+    margin-top: 1em;
+  }
+
+  .p-float-label{
+    margin: 1em;
+    display: inline-block;
+}
