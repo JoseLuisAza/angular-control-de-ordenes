@@ -11,12 +11,35 @@ export class TiendaComponent implements OnInit {
   items:any[]=[];
   loading:boolean=true;
   user:any;
+  totalProductosComprados:number;
   constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service) { 
 
 
   }
 
   ngOnInit(): void {
+
+
+        if(!this.auth0Service.loggedIn)
+        {
+          this.cdo.getArticulosStore().subscribe(
+            (data:any) => {
+              this.items=data;
+              this.loading=false;
+              this.cdo.getTotalCarrito().subscribe(
+                (data:any) => {
+                  this.totalProductosComprados=data;
+                },
+                (error) => {
+                  console.error(error)
+                },//si hay error
+              );
+            },
+            (error) => {
+              console.error(error)
+            },//si hay error
+          );
+        }else{
         /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
         this.auth0Service.userProfile$.subscribe(
           x =>  {
@@ -24,7 +47,7 @@ export class TiendaComponent implements OnInit {
             this.cdo.getArticulosGeneral(this.user).subscribe(
               (data:any) => {
                 this.items=data;
-                this.loading=false;
+                this.loading=false;                
               },
               (error) => {
                 console.error(error)
@@ -34,6 +57,7 @@ export class TiendaComponent implements OnInit {
           err => console.error('Observer got an error: ' + err),//si hay error
           () => console.log('Observer got a complete notification')//completo la notificacion del observer
         );
+        }
   }
 
 }

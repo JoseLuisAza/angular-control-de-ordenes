@@ -11,6 +11,7 @@ export class ControlDeOrdenesService {
   pathaddUser:String=this.domain+"/addUser";
   pathArticulos:String=this.domain+"/getArticulos";//ruta para obtener los articulos de la base de datos
   pathArticulosGeneral:String=this.domain+"/getArticulosGeneral";
+  pathArticulosStore:String=this.domain+"/getArticulosStore";
   pathnewItem:String=this.domain+"/newItem";
   pathDelteItem:String=this.domain+"/deleteItem";
   pathUpdateItem:String=this.domain+"/updateItem";
@@ -40,6 +41,11 @@ export class ControlDeOrdenesService {
   public getArticulosGeneral(user:any)
   {
     return this.http.post(this.pathArticulosGeneral.toString(),user);
+  }
+
+  public getArticulosStore()
+  {
+    return this.http.get(this.pathArticulosStore.toString());
   }
 
    /*Metodo para subir documento al sistema*/
@@ -84,5 +90,28 @@ export class ControlDeOrdenesService {
     });
     return obs$;
   }
+
+
+  public getTotalCarrito():Observable<number>
+  {
+    //localStorage.clear();
+    let obs$=new Observable<number>(subcriber=>{
+      subcriber.next(this.allStorage().length);
+    });
+    return obs$;
+  }
+
+  public allStorage() {
+
+    var values = [],
+        keys = Object.keys(this.localStorage),
+        i = keys.length;
+
+    while ( i-- ) {
+        values.push( this.localStorage.getItem(keys[i]) );
+    }
+
+    return values;
+}
 
 }
