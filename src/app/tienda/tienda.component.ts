@@ -94,7 +94,17 @@ export class TiendaComponent implements OnInit {
         this.itemsShop=data;
         this.products=data;
         console.log(this.itemsShop);
-        this.showModalShop=true;
+        if(data.length>=1)
+        {
+          this.showModalShop=true;
+        }
+        else{
+          iziToast.warning({
+            title: 'warning',
+            message: 'No hay articulos en el carrito!',
+          });
+        }
+
       },
       (error) => {
         console.error(error)

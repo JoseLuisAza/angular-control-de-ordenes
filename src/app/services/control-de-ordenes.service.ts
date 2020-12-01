@@ -17,6 +17,9 @@ export class ControlDeOrdenesService {
   pathUpdateItem:String=this.domain+"/updateItem";
   pathFinishShop:string=this.domain+"/finishShop";
   pathFinishShop2:string=this.domain+"/finishShop2"
+  pathVentasPorProducto:string=this.domain+"/ventasPorProducto"
+  pathPromedioDePrecios:string=this.domain+"/promedioDePrecios"
+  pathVentas:string=this.domain+"/ventas"
   localStorage:any;
   constructor(protected http: HttpClient) { 
     this.localStorage=window.localStorage;
@@ -144,6 +147,21 @@ export class ControlDeOrdenesService {
   public finalizarCompra2(formData:any)
   {
     return this.http.post(this.pathFinishShop2.toString(),formData);
+  }
+
+  public ventasPorProducto(formData:any)
+  {
+    return this.http.post(this.pathVentasPorProducto.toString(),formData);
+  }
+
+  public ventas(formData:any)
+  {
+    return this.http.post(this.pathVentas.toString(),formData);
+  }
+
+  public promedioDePrecios(formData:any)
+  {
+    return this.http.post(this.pathPromedioDePrecios.toString(),formData);
   }
 
 }

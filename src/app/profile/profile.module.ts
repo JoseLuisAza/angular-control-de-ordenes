@@ -15,6 +15,11 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
+import { ReporteComponent } from './reporte/reporte.component';
+import { VentasPorProductoComponent } from './ventas-por-producto/ventas-por-producto.component';
+import { VentasComponent } from './ventas/ventas.component';
+import { PromediosDePreciosComponent } from './promedios-de-precios/promedios-de-precios.component';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -24,7 +29,11 @@ import {InputTextModule} from 'primeng/inputtext';
     MyitemsComponent,
     ProfileComponent,
     Loading2Component,
-    Articulo2Component
+    Articulo2Component,
+    ReporteComponent,
+    VentasPorProductoComponent,
+    VentasComponent,
+    PromediosDePreciosComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +45,8 @@ import {InputTextModule} from 'primeng/inputtext';
     SplitButtonModule,
     ButtonModule,
     CardModule,
-    InputTextModule
+    InputTextModule,
+    TableModule
   ],
   exports:[
   ]

@@ -1,0 +1,24 @@
+<app-loading2 *ngIf="loading"></app-loading2>
+<div class="card" *ngIf="table">
+    <p-table [value]="results" selectionMode="single" [(selection)]="selectedProduct1" dataKey="code">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Detalle</th>
+                <th>Venta</th>     
+                <!-- <th>Subtotal</th>            -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr [pSelectableRow]="product">
+                <td>{{product.idproducto}}</td>
+                <td>{{product.nombre}}</td>
+                <td>{{product.detalle}}</td>
+                <td>{{product.venta}}</td>
+                <!-- <td>{{item.category}}</td>
+                <td>{{item.quantity}}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
