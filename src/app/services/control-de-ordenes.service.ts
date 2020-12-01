@@ -15,7 +15,8 @@ export class ControlDeOrdenesService {
   pathnewItem:String=this.domain+"/newItem";
   pathDelteItem:String=this.domain+"/deleteItem";
   pathUpdateItem:String=this.domain+"/updateItem";
-  pathFinishShop:string=this.domain+"/finishShop"
+  pathFinishShop:string=this.domain+"/finishShop";
+  pathFinishShop2:string=this.domain+"/finishShop2"
   localStorage:any;
   constructor(protected http: HttpClient) { 
     this.localStorage=window.localStorage;
@@ -138,6 +139,11 @@ export class ControlDeOrdenesService {
   public finalizarCompra(formData:any)
   {
     return this.http.post(this.pathFinishShop.toString(),formData);
+  }
+
+  public finalizarCompra2(formData:any)
+  {
+    return this.http.post(this.pathFinishShop2.toString(),formData);
   }
 
 }

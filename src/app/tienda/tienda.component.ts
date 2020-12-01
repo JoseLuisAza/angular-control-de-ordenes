@@ -126,21 +126,53 @@ export class TiendaComponent implements OnInit {
           (data:any) => {
             if(data['affectedRows']>=1)
             {
-              this.cdo.clarItemsCarrito().subscribe(
-                (data:any) => {
-                    //Mostramos un mensaje
-                    iziToast.success({
-                      title: 'success',
-                      message: 'Compra hecha!',
+              let dataVentaDetalletotal=[];
+              this.products.forEach(product => {
+                this.items.forEach(items => {
+                  if(items.idproducto==product.idproducto)
+                  {
+                    let subtotal=product.cantidad*items.precio;
+                    let dataVentaDetalle={
+                      'idproducto':product.idproducto,
+                      'idventa':data['insertId'],
+                      'cantidad':product.cantidad,
+                      'subtotal':subtotal
+                    }
+                    dataVentaDetalletotal.push(dataVentaDetalle);
+                  }
+                });
+              });
+              this.cdo.finalizarCompra2(dataVentaDetalletotal).subscribe(
+                (data)=>{
+                  let con:number=+data;
+                  if(con==this.products.length)
+                  {
+                      this.cdo.clarItemsCarrito().subscribe(
+                        (data:any) => {
+                            //Mostramos un mensaje
+                            iziToast.success({
+                              title: 'success',
+                              message: 'Compra hecha!',
+                            });
+                
+                            //ocultamos el modal
+                            this.showModalShop=false;
+                        },
+                        (error) => {
+                          console.error(error)
+                        },//si hay error
+                      );
+                  }
+                  else
+                  {
+                    iziToast.error({
+                      title: 'error',
+                      message: 'Hubo un error.. No completo la compra',
                     });
-        
-                    //ocultamos el modal
-                    this.showModalShop=false;
-                },
-                (error) => {
-                  console.error(error)
-                },//si hay error
-              );
+                  }
+
+                }
+              );      
             }
             else
             {
