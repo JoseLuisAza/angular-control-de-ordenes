@@ -7,19 +7,24 @@ import { Observable } from 'rxjs';
 })
 export class ControlDeOrdenesService {
   domain:String="http://localhost:3000";//dominio o host del servidor node.js
-  pathisRegistered:String=this.domain+"/isUserRegistered";
-  pathaddUser:String=this.domain+"/addUser";
-  pathArticulos:String=this.domain+"/getArticulos";//ruta para obtener los articulos de la base de datos
-  pathArticulosGeneral:String=this.domain+"/getArticulosGeneral";
-  pathArticulosStore:String=this.domain+"/getArticulosStore";
-  pathnewItem:String=this.domain+"/newItem";
-  pathDelteItem:String=this.domain+"/deleteItem";
-  pathUpdateItem:String=this.domain+"/updateItem";
-  pathFinishShop:string=this.domain+"/finishShop";
-  pathFinishShop2:string=this.domain+"/finishShop2"
-  pathVentasPorProducto:string=this.domain+"/ventasPorProducto"
-  pathPromedioDePrecios:string=this.domain+"/promedioDePrecios"
-  pathVentas:string=this.domain+"/ventas"
+
+  pathisRegistered:String=this.domain+"/usuario/isUserRegistered";
+  pathaddUser:String=this.domain+"/usuario/addUser";
+  pathArticulos:String=this.domain+"/usuario/getArticulos";//ruta para obtener los articulos de la base de datos
+  
+  pathArticulosStore:String=this.domain+"/publico/getArticulosStore";
+
+  pathnewItem:String=this.domain+"/crud/newItem";
+  pathDelteItem:String=this.domain+"/crud/deleteItem";
+  pathUpdateItem:String=this.domain+"/crud/updateItem";
+
+  pathArticulosGeneral:String=this.domain+"/tienda/getArticulosGeneral";
+  pathFinishShop:string=this.domain+"/tienda/finishShop";
+  pathFinishShop2:string=this.domain+"/tienda/finishShop2"
+
+  pathVentasPorProducto:string=this.domain+"/reportes/ventasPorProducto"
+  pathPromedioDePrecios:string=this.domain+"/reportes/promedioDePrecios"
+  pathVentas:string=this.domain+"/reportes/ventas"
   localStorage:any;
   constructor(protected http: HttpClient) { 
     this.localStorage=window.localStorage;

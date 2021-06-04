@@ -13,8 +13,8 @@ export class Auth0Service {
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
-      domain: "dev-joseluisaza.auth0.com",
-      client_id: "KMDWc6bwKjTJ6rQTMQzs9CtZZqrIf4QY",
+      domain: "storebus.us.auth0.com",
+      client_id: "IUMjDPDAlsv1qfqg7fxTFtLkAcdWeOwq",
       redirect_uri: `${window.location.origin}`
     })
   ) as Observable<Auth0Client>).pipe(
@@ -55,7 +55,7 @@ export class Auth0Service {
       tap(user => this.userProfileSubject$.next(user))
     );
   }
-
+  
   private localAuthSetup() {
     // This should only be called on app initialization
     // Set up local authentication streams
