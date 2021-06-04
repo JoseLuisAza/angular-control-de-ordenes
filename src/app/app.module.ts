@@ -18,6 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Auth0Service } from './services/auth0.service';
 import { DialogModule } from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -37,12 +38,16 @@ import {TableModule} from 'primeng/table';
     CardModule,
     DialogModule,
     BrowserAnimationsModule,
-    TableModule
+    TableModule,
+    AuthModule.forRoot({
+      domain: 'storebus.us.auth0.com',
+      clientId: 'IUMjDPDAlsv1qfqg7fxTFtLkAcdWeOwq'
+    }),
   ],
   providers: [
     HttpClient,
     ControlDeOrdenesService,
-    Auth0Service,
+    // Auth0Service,
   ],
   exports: [
 

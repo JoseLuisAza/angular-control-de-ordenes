@@ -72,6 +72,7 @@ export class Auth0Service {
     );
     checkAuth$.subscribe();
   }
+  
 
   login(redirectPath: string = '/') {
     // A desired redirect path can be passed to login method

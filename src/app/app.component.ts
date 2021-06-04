@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Auth0Service } from './services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { Auth0Service } from './services/auth0.service';
 export class AppComponent {
   title = 'control-de-ordenes';
 
-  constructor(public auth0Service: Auth0Service) {
+  constructor(public auth: AuthService) {
     
   }
 }

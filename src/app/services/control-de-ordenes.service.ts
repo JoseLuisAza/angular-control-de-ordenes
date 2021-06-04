@@ -136,7 +136,8 @@ export class ControlDeOrdenesService {
     var values = [],
         keys = Object.keys(this.localStorage),
         i = keys.length;
-
+    console.log(keys);
+    console.log(i);
     while ( i-- ) {
         values.push( JSON.parse(this.localStorage.getItem(keys[i]) ));
     }
