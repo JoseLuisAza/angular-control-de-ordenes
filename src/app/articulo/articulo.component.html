@@ -4,8 +4,10 @@
     </p-header>
     <p>{{item.detalle}}</p>
     <ng-template pTemplate="footer">
-        <p-button label="Comprar" icon="pi pi-check" (click)='showModal=true' *ngIf="auth0Service.loggedIn"></p-button>
-        <p-button label="Comprar" icon="pi pi-check"  (click)='auth0Service.login()'*ngIf="!auth0Service.loggedIn" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+        <p-button label="Comprar" icon="pi pi-check" (click)='showModal=true' *ngIf="auth0Service.isAuthenticated$ | async;else otro"></p-button>
+        <ng-template #otro>
+        <p-button label="Comprar" icon="pi pi-check"  (click)='auth0Service.loginWithRedirect()' styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+        </ng-template>
     </ng-template>
 </p-card>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth0Service } from 'src/app/services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from 'src/app/services/control-de-ordenes.service';
 
 @Component({
@@ -12,10 +12,10 @@ export class VentasPorProductoComponent implements OnInit {
   loading:boolean=true;
   table:boolean=false;
   selectedProduct1:any;
-  constructor(public auth0Service: Auth0Service, private cdo:ControlDeOrdenesService) { }
+  constructor(public auth0Service: AuthService, private cdo:ControlDeOrdenesService) { }
 
   ngOnInit(): void {
-    this.auth0Service.userProfile$.subscribe(
+    this.auth0Service.user$.subscribe(
       x =>  {
             let data={
               'user_id':x['http://softland.comuser_id']

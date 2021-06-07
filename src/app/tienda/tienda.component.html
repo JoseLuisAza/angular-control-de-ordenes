@@ -1,4 +1,4 @@
-<div class="user" *ngIf="auth0Service.userProfile$ | async as profile">
+<div class="user" *ngIf="auth0Service.user$ | async as profile">
     <img class="ui avatar mini image" src="{{profile.picture}}" id="user">
     <h4>{{profile.name}}</h4>
     <h6>{{profile.email}}</h6>

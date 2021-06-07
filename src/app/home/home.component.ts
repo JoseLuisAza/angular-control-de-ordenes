@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth0Service } from '../services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from '../services/control-de-ordenes.service';
 declare var iziToast:any;
 @Component({
@@ -10,12 +10,12 @@ declare var iziToast:any;
 export class HomeComponent implements OnInit {
   user:any;
   
-  constructor(public auth0Service: Auth0Service, private cdo:ControlDeOrdenesService) { }
+  constructor(public auth0Service: AuthService, private cdo:ControlDeOrdenesService) { }
 
   ngOnInit(): void {
 
           /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-          this.auth0Service.userProfile$.subscribe(
+          this.auth0Service.user$.subscribe(
             x =>  {
               this.user={"user_id":x['http://softland.comuser_id']};
               this.cdo.isUserRegistered(this.user).subscribe(

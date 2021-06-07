@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  namespaceAuth0:'https://bluter.softland.website'
 };

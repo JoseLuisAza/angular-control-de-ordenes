@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Auth0Service } from '../services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from '../services/control-de-ordenes.service';
 
 declare var $:any;
@@ -13,7 +13,7 @@ declare var iziToast:any;
 export class ArticuloComponent implements OnInit {
   @Input() item:any;
   showModal:boolean=false;
-  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service) { 
+  constructor(private cdo:ControlDeOrdenesService, public auth0Service: AuthService) { 
     
   }
 

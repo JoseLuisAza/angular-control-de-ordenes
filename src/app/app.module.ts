@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,10 +15,10 @@ import { HomeComponent } from './home/home.component';
 import { LoadingComponent } from './loading/loading.component';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { Auth0Service } from './services/auth0.service';
 import { DialogModule } from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
 import { AuthModule } from '@auth0/auth0-angular';
+import { httpInterceptor } from './services/httpinterceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { AuthModule } from '@auth0/auth0-angular';
   providers: [
     HttpClient,
     ControlDeOrdenesService,
-    // Auth0Service,
+    { provide: HTTP_INTERCEPTORS, useClass: httpInterceptor, multi: true }
   ],
   exports: [
 

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
-import { Auth0Service } from '../services/auth0.service';
 import { ControlDeOrdenesService } from '../services/control-de-ordenes.service';
-
+import { AuthService } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 declare var iziToast:any;
+const Swal = require('sweetalert2')
 
 @Component({
   selector: 'app-tienda',
@@ -20,69 +21,90 @@ export class TiendaComponent implements OnInit {
   itemsShop:any[]=[];
   products: any[];
   selectedProduct1: any;
-  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service) { 
+  constructor(private cdo:ControlDeOrdenesService, public auth0Service: AuthService) { 
 
 
   }
 
   ngOnInit(): void {
-
-        setTimeout(() => {
-          if(!this.auth0Service.loggedIn)
-          {
-            this.cdo.getArticulosStore().subscribe(
-              (data:any) => {
-                this.items=data;
-                this.loading=false;
-                if(data.length==0)
-                {
-                  this.noData=true;
-                }
-                this.cdo.getTotalCarrito().subscribe(
-                  (data:any) => {
-                    this.totalProductosComprados=data;
+          this.auth0Service.isLoading$.subscribe(
+            (data: any) => {
+              if (!data) {
+                this.auth0Service.isAuthenticated$.subscribe(
+                  (data: any) => {
+                    // console.log('esta autenticado' + data);
+                    if (!data) {
+                      this.cdo.getArticulosStore().subscribe(
+                        (data: any) => {
+                          this.items = data;
+                          this.loading = false;
+                          if (data.length == 0) {
+                            this.noData = true;
+                          }
+                          this.cdo.getTotalCarrito().subscribe(
+                            (data: any) => {
+                              this.totalProductosComprados = data;
+                            },
+                            (error) => {
+                              console.error(error);
+                            } //si hay error
+                          );
+                        },
+                        (error) => {
+                          console.error(error);
+                        } //si hay error
+                      );
+                    } else {
+                      /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
+                      this.auth0Service.user$.subscribe(
+                        (x) => {
+                          this.user = {
+                            user_id: x[`${environment.namespaceAuth0}`].user_id,
+                          };
+                          console.log(x);
+                          console.log(this.user);
+                          this.cdo.getArticulosGeneral(this.user).subscribe(
+                            (data: any) => {
+                              this.items = data;
+                              this.loading = false;
+                              if (data.length == 0) {
+                                this.noData = true;
+                              }
+                              this.cdo.getTotalCarrito().subscribe(
+                                (data: any) => {
+                                  this.totalProductosComprados = data;
+                                },
+                                (error) => {
+                                  console.error(error);
+                                } //si hay error
+                              );
+                            },
+                            (error) => {
+                              console.error(error);
+                              Swal.fire(
+                                ''+error.statusText,
+                                ''+error.error,
+                                'error'
+                              )
+                            } //si hay error
+                          );
+                        }, //obtenemos la fecha y se la pasamos a la variable created_at
+                        (err) => console.error('Observer got an error: ' + err), //si hay error
+                        () =>
+                          console.log('Observer got a complete notification') //completo la notificacion del observer
+                      );
+                    }
                   },
                   (error) => {
-                    console.error(error)
-                  },//si hay error
+                    console.error(error);
+                  } //si hay error
                 );
-              },
-              (error) => {
-                console.error(error)
-              },//si hay error
-            );
-          }else{
-          /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-          this.auth0Service.userProfile$.subscribe(
-            x =>  {
-              this.user={"user_id":x['http://softland.comuser_id']};
-              this.cdo.getArticulosGeneral(this.user).subscribe(
-                (data:any) => {
-                  this.items=data;
-                  this.loading=false;       
-                  if(data.length==0)
-                  {
-                    this.noData=true;
-                  }
-                  this.cdo.getTotalCarrito().subscribe(
-                    (data:any) => {
-                      this.totalProductosComprados=data;
-                    },
-                    (error) => {
-                      console.error(error)
-                    },//si hay error
-                  );         
-                },
-                (error) => {
-                  console.error(error)
-                },//si hay error
-              );
-            },//obtenemos la fecha y se la pasamos a la variable created_at
-            err => console.error('Observer got an error: ' + err),//si hay error
-            () => console.log('Observer got a complete notification')//completo la notificacion del observer
+              }
+            },
+            (error) => {
+              console.error(error);
+            } //si hay error
           );
-          }
-        }, 3000);
 
   }
 
@@ -126,82 +148,82 @@ export class TiendaComponent implements OnInit {
       });
     });
     /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-    this.auth0Service.userProfile$.subscribe(
-      x =>  {
-        data={
-          'total':total,
-          'user_id':x['http://softland.comuser_id']
-        };
-        this.cdo.finalizarCompra(data).subscribe(
-          (data:any) => {
-            if(data['affectedRows']>=1)
-            {
-              let dataVentaDetalletotal=[];
-              this.products.forEach(product => {
-                this.items.forEach(items => {
-                  if(items.idproducto==product.idproducto)
-                  {
-                    let subtotal=product.cantidad*items.precio;
-                    let dataVentaDetalle={
-                      'idproducto':product.idproducto,
-                      'idventa':data['insertId'],
-                      'cantidad':product.cantidad,
-                      'subtotal':subtotal
-                    }
-                    dataVentaDetalletotal.push(dataVentaDetalle);
-                  }
-                });
-              });
-              this.cdo.finalizarCompra2(dataVentaDetalletotal).subscribe(
-                (data)=>{
-                  let con:number=+data;
-                  if(con==this.products.length)
-                  {
-                      this.cdo.clarItemsCarrito().subscribe(
-                        (data:any) => {
-                            //Mostramos un mensaje
-                            iziToast.success({
-                              title: 'success',
-                              message: 'Compra hecha!',
-                            });
+    // this.auth0Service.userProfile$.subscribe(
+    //   x =>  {
+    //     data={
+    //       'total':total,
+    //       'user_id':x['http://softland.comuser_id']
+    //     };
+    //     this.cdo.finalizarCompra(data).subscribe(
+    //       (data:any) => {
+    //         if(data['affectedRows']>=1)
+    //         {
+    //           let dataVentaDetalletotal=[];
+    //           this.products.forEach(product => {
+    //             this.items.forEach(items => {
+    //               if(items.idproducto==product.idproducto)
+    //               {
+    //                 let subtotal=product.cantidad*items.precio;
+    //                 let dataVentaDetalle={
+    //                   'idproducto':product.idproducto,
+    //                   'idventa':data['insertId'],
+    //                   'cantidad':product.cantidad,
+    //                   'subtotal':subtotal
+    //                 }
+    //                 dataVentaDetalletotal.push(dataVentaDetalle);
+    //               }
+    //             });
+    //           });
+    //           this.cdo.finalizarCompra2(dataVentaDetalletotal).subscribe(
+    //             (data)=>{
+    //               let con:number=+data;
+    //               if(con==this.products.length)
+    //               {
+    //                   this.cdo.clarItemsCarrito().subscribe(
+    //                     (data:any) => {
+    //                         //Mostramos un mensaje
+    //                         iziToast.success({
+    //                           title: 'success',
+    //                           message: 'Compra hecha!',
+    //                         });
                 
-                            //ocultamos el modal
-                            this.showModalShop=false;
-                        },
-                        (error) => {
-                          console.error(error)
-                        },//si hay error
-                      );
-                  }
-                  else
-                  {
-                    iziToast.error({
-                      title: 'error',
-                      message: 'Hubo un error.. No completo la compra',
-                    });
-                  }
+    //                         //ocultamos el modal
+    //                         this.showModalShop=false;
+    //                     },
+    //                     (error) => {
+    //                       console.error(error)
+    //                     },//si hay error
+    //                   );
+    //               }
+    //               else
+    //               {
+    //                 iziToast.error({
+    //                   title: 'error',
+    //                   message: 'Hubo un error.. No completo la compra',
+    //                 });
+    //               }
 
-                }
-              );      
-            }
-            else
-            {
-              //si no fue afectada ninguna fila en la base de datos
-              //mostramos un mensaje
-              iziToast.error({
-                title: 'error',
-                message: 'Hubo un error.. No completo la compra',
-              });
-            }
-          },
-          (error) => {
-            console.error(error)
-          },//si hay error
-        ); 
+    //             }
+    //           );      
+    //         }
+    //         else
+    //         {
+    //           //si no fue afectada ninguna fila en la base de datos
+    //           //mostramos un mensaje
+    //           iziToast.error({
+    //             title: 'error',
+    //             message: 'Hubo un error.. No completo la compra',
+    //           });
+    //         }
+    //       },
+    //       (error) => {
+    //         console.error(error)
+    //       },//si hay error
+    //     ); 
 
-      },//obtenemos la fecha y se la pasamos a la variable created_at
-      error => console.error(error),//si hay error
-    ); 
+    //   },//obtenemos la fecha y se la pasamos a la variable created_at
+    //   error => console.error(error),//si hay error
+    // ); 
 
  
  

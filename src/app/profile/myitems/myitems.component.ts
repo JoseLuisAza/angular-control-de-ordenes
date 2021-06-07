@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth0Service } from 'src/app/services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from 'src/app/services/control-de-ordenes.service';
 
 @Component({
@@ -13,14 +13,14 @@ export class MyitemsComponent implements OnInit {
   loading:boolean=true;
   user:any;
   noData:boolean=false;
-  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service ) { 
+  constructor(private cdo:ControlDeOrdenesService, public auth0Service: AuthService ) { 
 
 
   }
 
   ngOnInit(): void {
             /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-            this.auth0Service.userProfile$.subscribe(
+            this.auth0Service.user$.subscribe(
               x =>  {
                 this.user={"user_id":x['http://softland.comuser_id']};
                 this.cdo.getArticulos(this.user).subscribe(

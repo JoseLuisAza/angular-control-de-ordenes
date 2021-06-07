@@ -1,7 +1,7 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth0Service } from 'src/app/services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from 'src/app/services/control-de-ordenes.service';
 declare var $:any;
 declare var iziToast:any;
@@ -20,10 +20,10 @@ export class Articulo2Component implements OnInit {
   formData:any;//objeto que contendra la imagen y los datos del item
   subido:any;//varible que guardara el porcentaje de lo subido
 
-  constructor(private cdo:ControlDeOrdenesService, private router:Router, public auth0Service: Auth0Service ) { 
+  constructor(private cdo:ControlDeOrdenesService, private router:Router, public auth0Service: AuthService ) { 
 
     /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-    this.auth0Service.userProfile$.subscribe(
+    this.auth0Service.user$.subscribe(
       x =>  {
         this.user={"user_id":x['http://softland.comuser_id']};
       },//obtenemos la fecha y se la pasamos a la variable created_at

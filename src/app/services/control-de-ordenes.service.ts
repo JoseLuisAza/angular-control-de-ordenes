@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,22 @@ export class ControlDeOrdenesService {
   pathPromedioDePrecios:string=this.domain+"/reportes/promedioDePrecios"
   pathVentas:string=this.domain+"/reportes/ventas"
   localStorage:any;
+  //Cabecera para usar Auth0 Management API
+  headers_Auth0_Token_Management_API: any = new HttpHeaders({
+    "Content-Type": "application/json", //Tipo de contenido a enviar
+    MAPI: "true", //cabecera propia para que el interceptor anada el token correspondiente
+  });
+
+  //Cabecera para usar Auth0 Custom API
+  headers_Auth0_Token_Custom_API: any = new HttpHeaders({
+    "Content-Type": "application/json", //Tipo de contenido a enviar
+  });
+
   constructor(protected http: HttpClient) { 
     this.localStorage=window.localStorage;
+
+    this.set_token_Auth0_Custom_API();
+
   }
 
 
@@ -169,5 +184,39 @@ export class ControlDeOrdenesService {
   {
     return this.http.post(this.pathPromedioDePrecios.toString(),formData);
   }
+
+    // NOTE para obtener el token de Management API o Custom API de auth0 se pide el token
+  // a el mismo endpoint pero con diferente audience
+  public getTokenAuth0_custom_API() {
+    let data: any = `{
+      "client_id": "${environment.client_Id_Management}",
+      "client_secret": "${environment.client_Secret_Management}",
+      "audience":"${environment.audience_API_storebus}",
+      "grant_type":"client_credentials"
+    }`;
+    return this.http.post(`https://${environment.domain_auth0}${environment.pathGetTokenAuth0}`, data.toString(), {
+      headers: this.headers_Auth0_Token_Custom_API,
+      responseType: "json",
+    });
+  }
+
+
+  public set_token_Auth0_Custom_API(){
+    //NOTE Token para custom API storebus
+    this.getTokenAuth0_custom_API().subscribe(
+      (data) => {
+        // logger.info("Token obtenido de Auth0");
+        // this.token_Auth0_Custom_API = data["access_token"];
+        console.log(data);
+        localStorage.setItem("auth0T", data["access_token"]);
+        /*Nos suscribimos al metodo getTokenAuth0 del servicio que hace la peticion http 
+      y que deuvuelve un objeto Observable */
+      },
+      (error) => {
+        console.error(error);
+        //logger.error("Fallo al obtener Token de Auth0");
+      }
+    );
+}
 
 }

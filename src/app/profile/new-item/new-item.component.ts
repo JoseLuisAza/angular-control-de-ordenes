@@ -1,6 +1,6 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Auth0Service } from 'src/app/services/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { ControlDeOrdenesService } from 'src/app/services/control-de-ordenes.service';
 import {Router} from '@angular/router';
 
@@ -18,11 +18,11 @@ export class NewItemComponent implements OnInit {
   formData:any;//objeto que contendra la imagen y los datos del item
   subido:any;//varible que guardara el porcentaje de lo subido
   valueprogress:number=0;
-  constructor(private cdo:ControlDeOrdenesService, public auth0Service: Auth0Service, public router:Router) { }
+  constructor(private cdo:ControlDeOrdenesService, public auth0Service: AuthService, public router:Router) { }
 
   ngOnInit() {
     /*Nos suscribimos al userProfile para obtener la fecha en que se registro el usuario*/
-    this.auth0Service.userProfile$.subscribe(
+    this.auth0Service.user$.subscribe(
       x =>  this.user={"user_id":x['http://softland.comuser_id']},//obtenemos la fecha y se la pasamos a la variable created_at
       err => console.error('Observer got an error: ' + err),//si hay error
       () => console.log('Observer got a complete notification')//completo la notificacion del observer
@@ -47,7 +47,7 @@ export class NewItemComponent implements OnInit {
             this.formData.append('precio',$("form#formajax").find('input[name="precio"]').val());
             this.formData.append('detalles',$("form#formajax").find('input[name="detalles"]').val());
             /*Nos suscribimos para obtener el user id */
-            this.auth0Service.userProfile$.subscribe(
+            this.auth0Service.user$.subscribe(
               x =>   this.formData.append("user_id",x['http://softland.comuser_id']), //obtenemos la fecha y se la pasamos a la variable created_at
               err => console.error('Observer got an error: ' + err),//si hay error
               () => console.log('Observer got a complete notification')//completo la notificacion del observer
